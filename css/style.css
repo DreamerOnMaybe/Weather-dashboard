@@ -58,7 +58,7 @@ body {
     height: 13px;
     position: absolute;
     top: 0;
-    right: 95px;
+    right: -20px;
 }
 
 .temperature {
@@ -162,8 +162,9 @@ body {
 }
 
 .number__info p {
-    font-weight: 400;
-    font-size: 12px;
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: 14px;
 }
 
 .sun__time {
