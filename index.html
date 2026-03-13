@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="css/media.css">
 </head>
 <body>
+    <div id="loader">
+        <div class="spinner">Загрузка погоды...</div>
+    </div>
     <div class="container">
         <div class="main__card">
             <img src="./img/weather.svg" alt="" class="cloud__decoration">
@@ -88,19 +91,22 @@
             <div class="sun__arc-wrapper">
                 <svg width="245" height="148" viewBox="0 0 245 148" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16 122C16 108.08 18.7418 94.296 24.0688 81.4355C29.3958 68.575 37.2037 56.8896 47.0467 47.0466C56.8897 37.2036 68.5751 29.3957 81.4356 24.0687C94.2961 18.7418 108.08 16 122 16C135.92 16 149.704 18.7418 162.565 24.0688C175.425 29.3958 187.11 37.2037 196.953 47.0467C206.796 56.8897 214.604 68.5751 219.931 81.4356C225.258 94.2961 228 108.08 228 122" stroke="#F6C833" stroke-width="2" stroke-dasharray="2 13"/>
-                    <path d="M24.0688 81.4355C18.7418 94.296 16 108.08 16 122L175 122V30.2013C171.002 27.8928 166.848 25.8432 162.565 24.0688C149.704 18.7418 135.92 16 122 16C108.08 16 94.2961 18.7418 81.4356 24.0687C68.5751 29.3957 56.8897 37.2036 47.0467 47.0466C37.2037 56.8896 29.3958 68.575 24.0688 81.4355Z" fill="url(#paint0_linear_328_81)"/>
                     <line opacity="0.4" x1="14" y1="121.5" x2="230" y2="121.5" stroke="#F6C833"/>
+                    <path d="M16 122C16 108.08 18.7418 94.296 24.0688 81.4355C29.3958 68.575 37.2037 56.8896 47.0467 47.0466C56.8897 37.2036 68.5751 29.3957 81.4356 24.0687C94.2961 18.7418 108.08 16 122 16C135.92 16 149.704 18.7418 162.565 24.0688C175.425 29.3958 187.11 37.2037 196.953 47.0467C206.796 56.8897 214.604 68.5751 219.931 81.4356C225.258 94.2961 228 108.08 228 122L122 122L16 122Z" fill="url(#paint0_linear_328_81)" clip-path="url(#sun-mask)" id="sun-fill-path"/>
                     <circle id="sun-icon" cx="122" cy="16" r="6" fill="#F6C833"></circle> 
                     <line x1="228" y1="126" x2="228" y2="118" stroke="#E5BB46" stroke-width="2"/>
                     <line x1="16" y1="126" x2="16" y2="118" stroke="#E5BB46" stroke-width="2"/>
                     <text x="0" y="142" fill="white" font-size="14" id="sunrise-text">00:00</text>
-                    <text x="210" y="142" fill="white" font-size="14" id="sunset-text">00:00</text>
+                    <text x="208" y="142" fill="white" font-size="14" id="sunset-text">00:00</text>
                     <text x="105" y="80" fill="white" font-size="14" id="current-time-text">00:00</text>
                     <defs>
-                    <linearGradient id="paint0_linear_328_81" x1="175" y1="16" x2="175" y2="124" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#FBDB60" stop-opacity="0.2"/>
-                    <stop offset="1" stop-color="#FBDB60" stop-opacity="0"/>
-                    </linearGradient>
+                        <linearGradient id="paint0_linear_328_81" x1="175" y1="16" x2="175" y2="124" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#FBDB60" stop-opacity="0.2"/>
+                            <stop offset="1" stop-color="#FBDB60" stop-opacity="0"/>
+                        </linearGradient>
+                        <clipPath id="sun-mask">
+                            <rect id="mask-rect" x="0" y="0" width="0" height="148">
+                        </clipPath>
                     </defs>
                 </svg>
             </div>

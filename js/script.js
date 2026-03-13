@@ -71,6 +71,8 @@ function getWeather() {
             document.querySelector('.o3').textContent = components.o3
             document.querySelector('.co').textContent = components.co
 
+            document.getElementById('loader').style.opacity = '0'
+            setTimeout(() => document.getElementById('loader').remove(), 500)
         })
 }
 
@@ -88,6 +90,8 @@ const updateWeatherTime = (data) => {
     let currentCitySeconds = dt + timezone;
 
     const tick = () => {
+        
+
         const cityTime = new Date(currentCitySeconds * 1000);
 
         const hours = cityTime.getUTCHours().toString().padStart(2, '0');
@@ -98,7 +102,15 @@ const updateWeatherTime = (data) => {
         let sunProgress = (currentCitySeconds - sunrise) / (sunset - sunrise);
         sunProgress = Math.max(0, Math.min(1, sunProgress));
 
+        const maskRect = document.getElementById('mask-rect')
+        const maskWidth = 16 + (sunProgress * (228 - 16))
+        maskRect.setAttribute('width', maskWidth)
+
         const angle = (sunProgress * 180) - 90;
+
+        const angleInRadius = (angle * Math.PI) / 180
+        const sunX = 122 + 106 * Math.sin(angleInRadius)
+        maskRect.setAttribute('width', sunX)
         
         sunIcon.style.transformOrigin = '122px 122px';
         sunIcon.style.transform = `rotate(${angle}deg)`;
