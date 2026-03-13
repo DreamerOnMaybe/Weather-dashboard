@@ -38,6 +38,8 @@ function getWeather() {
             sunriseDisplay.textContent = formatTime(data.sys.sunrise, offset)
             sunsetDisplay.textContent = formatTime(data.sys.sunset, offset)
 
+            updateWeatherTime(data);
+
             const lat = data.coord.lat
             const lon = data.coord.lon
 
@@ -71,5 +73,42 @@ function getWeather() {
 
         })
 }
+
+let weatherTimer;
+
+const updateWeatherTime = (data) => {
+    const currentTimeDisplay = document.getElementById('current-time-text');
+    const sunIcon = document.getElementById('sun-icon');
+    
+    const { timezone, sys, dt } = data;
+    const { sunrise, sunset } = sys;
+
+    if (weatherTimer) clearInterval(weatherTimer);
+
+    let currentCitySeconds = dt + timezone;
+
+    const tick = () => {
+        const cityTime = new Date(currentCitySeconds * 1000);
+
+        const hours = cityTime.getUTCHours().toString().padStart(2, '0');
+        const minutes = cityTime.getUTCMinutes().toString().padStart(2, '0');
+        
+        currentTimeDisplay.textContent = `${hours}:${minutes}`;
+        
+        let sunProgress = (currentCitySeconds - sunrise) / (sunset - sunrise);
+        sunProgress = Math.max(0, Math.min(1, sunProgress));
+
+        const angle = (sunProgress * 180) - 90;
+        
+        sunIcon.style.transformOrigin = '122px 122px';
+        sunIcon.style.transform = `rotate(${angle}deg)`;
+
+
+        currentCitySeconds++;
+    };
+
+    tick();
+    weatherTimer = setInterval(tick, 1000);
+};
 
 getWeather()

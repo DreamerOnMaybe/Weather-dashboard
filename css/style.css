@@ -17,7 +17,7 @@ body {
     gap: 32px;
     align-items: start;
     padding: 40px; 
-    max-width: 1090px;
+    max-width: 1300px;
 }
 
 .right__side {
@@ -97,9 +97,11 @@ body {
 }
 
 .statistics__card {
+    width: 140px;
+    text-align: center;
     display: flex;
     gap: 12px;
-    padding: 12px 27px;
+    padding: 8px 21px;
     background: rgba(102, 96, 200, 0.6);
     border-radius: 15px;
 }
@@ -110,6 +112,7 @@ body {
 }
 
 .info p {
+    margin-top: 10px;
     font-weight: 700;
     font-size: 18px;
     text-align: center;
@@ -220,3 +223,11 @@ body {
     color: #c2bff4;
 }
 
+#current-time-text {
+    transform-box: fill-box;
+    transition: transform 1s ease-in-out;
+}
+
+#sun-icon {
+    transition: transform 1s ease-in-out;
+}
