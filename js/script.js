@@ -1,6 +1,4 @@
 const apiKey = '54656c3ccfba1edf5e913bb0eddcfd03' // Переменная для ключа
-const city = 'Omsk'
-const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=ru` 
 
 const tempDisplay = document.querySelector('.number')
 const middleTempDisplay = document.querySelector('.middle__temp')
@@ -10,9 +8,15 @@ const humidityDisplay = document.querySelector('.humidity')
 const rainDisplay = document.querySelector('.rain')
 const qualityIndex = document.querySelector('.index')
 
-function getWeather() {
-    fetch(url)
-        .then(response => response.json())
+function getWeather(cityName) {
+    const currentUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric&lang=ru`
+    fetch(currentUrl)
+        .then(response => {
+            if(!response.ok) {
+                throw new Error('Город не найден!')
+            }
+            return response.json()
+        })
         .then(data => {
             console.log(data)
             cityDisplay.textContent = data.name
@@ -47,6 +51,14 @@ function getWeather() {
 
             
         })
+        .catch(err => {
+            console.error(err)
+
+            const loader = document.getElementById('loader')
+            if (loader) loader.style.display = 'none'
+
+            alert('Извините, город не найден. Проверьте правильность названия.')
+        })
         .then(response => response.json())
         .then(airData => {
             console.log('Данные о воздухе:', airData)
@@ -72,12 +84,15 @@ function getWeather() {
             document.querySelector('.co').textContent = components.co
 
             document.getElementById('loader').style.opacity = '0'
-            setTimeout(() => document.getElementById('loader').remove(), 500)
+            setTimeout(() => {
+                const loader = document.getElementById('loader')
+                loader.style.display = 'none'
+            }, 500)
         })
 }
 
-function getFiveDayForecast() {
-    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric&lang=ru`)
+function getFiveDayForecast(cityName) {
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=metric&lang=ru`)
         .then(response => response.json())
         .then(data => {
             console.log(data.list)
@@ -121,8 +136,6 @@ function getFiveDayForecast() {
         })
     
 }
-
-getFiveDayForecast()
 
 let weatherTimer;
 
@@ -171,4 +184,29 @@ const updateWeatherTime = (data) => {
     weatherTimer = setInterval(tick, 1000);
 };
 
-getWeather()
+function init(cityName) {
+    getWeather(cityName);
+    getFiveDayForecast(cityName)
+}
+
+const cityInput = document.getElementById('city-input')
+
+cityInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        const newCity = cityInput.value.trim()
+
+        if (newCity) {
+            const loader = document.getElementById('loader')
+            if (loader) {
+                loader.style.opacity = '1'
+                loader.style.display = 'flex'
+            }
+            init(newCity)
+
+            cityInput.value = ''
+            cityInput.blur()
+        }
+    }
+})
+
+init('Moscow')
