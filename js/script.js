@@ -1,11 +1,11 @@
-const apiKey = '54656c3ccfba1edf5e913bb0eddcfd03'
+const apiKey = '54656c3ccfba1edf5e913bb0eddcfd03' // Переменная для ключа
 const city = 'Omsk'
-const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=ru`
+const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=ru` 
 
 const tempDisplay = document.querySelector('.number')
 const middleTempDisplay = document.querySelector('.middle__temp')
 const cityDisplay = document.querySelector('.location')
-const windDisplay = document.querySelector('.wind')
+const windDisplay = document.querySelector('.wind')  // Поиск элементов по классу
 const humidityDisplay = document.querySelector('.humidity')
 const rainDisplay = document.querySelector('.rain')
 const qualityIndex = document.querySelector('.index')
@@ -75,6 +75,54 @@ function getWeather() {
             setTimeout(() => document.getElementById('loader').remove(), 500)
         })
 }
+
+function getFiveDayForecast() {
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric&lang=ru`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.list)
+            const dailyData = data.list.filter((item, index) => index % 8 === 0).slice(0, 5)
+
+            const forecastItems = document.querySelectorAll('.weak__weather-item')
+
+            dailyData.forEach((day, index) => {
+                if (forecastItems[index]) {
+                    const date = new Date(day.dt * 1000)
+                    const dayName = date.toLocaleDateString('ru-RU', {weekday: 'long'})
+
+                    let dayLabel;
+                    if (index === 0) {
+                        dayLabel = 'Сегодня'
+                    } else if (index === 1) {
+                        dayLabel = 'Завтра'
+                    } else {
+                        dayLabel = dayName.charAt(0).toUpperCase() + dayName.slice(1)
+                    }
+
+                    forecastItems[index].querySelector('.item__title').textContent = dayLabel
+
+                    const temp = Math.round(day.main.temp)
+                    forecastItems[index].querySelector('.item__temp').innerHTML = `${temp}° <span>${Math.round(day.main.feels_like)}°</span>`
+
+                    const weatherIcons = {
+                        'Thunderstorm': './img/thunderstorm.svg',
+                        'Rain': './img/rainy.svg',
+                        'Clear': './img/sunny.svg',
+                        'Clouds': './img/cloudy.svg'
+                    }
+
+                    const weatherStatus = day.weather[0].main
+
+                    const myIconSrc = weatherIcons[weatherStatus] || './img/partlyСloudy.svg'
+
+                    forecastItems[index].querySelector('img').src = myIconSrc
+                }
+            })
+        })
+    
+}
+
+getFiveDayForecast()
 
 let weatherTimer;
 
